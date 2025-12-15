@@ -14,7 +14,7 @@ export default function EnquiryTable({ enquiries, isAdmin = false }) {
 
 const updateStatus = useMutation({
   mutationFn: ({ id, status }) =>
-    api.patch(`/enquiries/${id}/status`, { status }),
+    api.patch(`/api/enquiries/${id}/status`, { status }),
   onSuccess: () => {
     qc.invalidateQueries();
   },
@@ -44,7 +44,7 @@ const updateStatus = useMutation({
             >
               <td className="px-4 py-3 font-medium text-primary">
                 <Link
-                  to={`/properties/${e.property}`}
+                  to={`/api/properties/${e.property}`}
                   className="hover:underline"
                 >
                   {e.propertyTitle}

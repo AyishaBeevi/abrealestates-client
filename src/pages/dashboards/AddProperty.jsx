@@ -61,7 +61,7 @@ export default function AddPropertyForm() {
 
       images.forEach((img) => form.append("images", img.file));
 
-      return api.post("/properties", form);
+      return api.post("/api/properties", form);
     },
 
     onSuccess: () => {

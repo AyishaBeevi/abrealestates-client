@@ -107,7 +107,7 @@ export default function EditPropertyModal({ property, onClose }) {
         }
       });
 
-      return api.put(`/properties/${property._id}`, form);
+      return api.put(`/api/properties/${property._id}`, form);
     },
 
     onSuccess: () => {
