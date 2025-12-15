@@ -3,7 +3,7 @@ import axios from "axios";
 
 const AuthContext = createContext(null);
 
-// ✅ Vite environment variable
+// Vite environment variable
 const API_URL = import.meta.env.VITE_API_URL;
 
 export const AuthProvider = ({ children }) => {
@@ -11,9 +11,9 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  /* ----------------------------------
+  /* 
      Restore auth on page refresh
-  ---------------------------------- */
+  */
   useEffect(() => {
     const savedUser = localStorage.getItem("user");
     const savedToken = localStorage.getItem("token");
@@ -30,11 +30,11 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  /* ----------------------------------
+  /* 
      REGISTER (auto-login)
-  ---------------------------------- */
+   */
   const register = async (name, email, password) => {
-    await axios.post(`${API_URL}/auth/register`, {
+    await axios.post(`${API_URL}/api/auth/register`, {
       name,
       email,
       password,
@@ -44,11 +44,11 @@ export const AuthProvider = ({ children }) => {
     await login(email, password);
   };
 
-  /* ----------------------------------
+  /* 
      LOGIN
-  ---------------------------------- */
+   */
   const login = async (email, password) => {
-    const res = await axios.post(`${API_URL}/auth/login`, {
+    const res = await axios.post(`${API_URL}/api/auth/login`, {
       email,
       password,
     });
