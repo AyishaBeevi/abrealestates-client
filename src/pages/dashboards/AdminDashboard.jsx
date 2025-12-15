@@ -214,7 +214,7 @@ export default function AdminDashboard() {
         <section className="bg-white p-6 rounded-xl shadow">
           <h2 className="text-xl font-semibold mb-1">Property Moderation</h2>
 <p className="text-sm text-gray-500 mb-4">
-  Showing 10 most recent properties
+  Showing most recent properties
 </p>
 
 

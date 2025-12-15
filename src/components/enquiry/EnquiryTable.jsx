@@ -1,9 +1,20 @@
-import { Link , useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { ExternalLink } from "lucide-react";
 import api from "../../services/api/axios";
 
+export default function EnquiryTable({ enquiries = [], isAdmin = false }) {
+  const navigate = useNavigate();
+  const qc = useQueryClient();
 
-export default function EnquiryTable({ enquiries, isAdmin = false }) {
+  const updateStatus = useMutation({
+    mutationFn: ({ id, status }) =>
+      api.patch(`/api/enquiries/${id}/status`, { status }),
+    onSuccess: () => {
+      qc.invalidateQueries(["admin-enquiries"]);
+    },
+  });
+
   if (!enquiries.length) {
     return (
       <div className="text-center text-secondary py-20">
@@ -11,17 +22,6 @@ export default function EnquiryTable({ enquiries, isAdmin = false }) {
       </div>
     );
   }
-  const qc = useQueryClient();
-const navigate = useNavigate();
-
-const updateStatus = useMutation({
-  mutationFn: ({ id, status }) =>
-    api.patch(`/api/enquiries/${id}/status`, { status }),
-  onSuccess: () => {
-    qc.invalidateQueries();
-  },
-});
-
 
   return (
     <div className="overflow-x-auto border border-secondary/20 rounded-xl bg-white">
@@ -44,19 +44,20 @@ const updateStatus = useMutation({
               key={e._id}
               className="border-t hover:bg-gray-50 transition"
             >
+              {/* PROPERTY (clickable) */}
               <td
-  className="text-primary cursor-pointer hover:underline"
-  onClick={() =>
-    navigate(`/api/properties/${enquiry.property.slug}`)
-  }
->
-  {enquiry.property?.title || enquiry.propertyTitle}
-</td>
-<span className="inline-flex items-center gap-1 text-primary hover:underline">
-  {enquiry.property?.title}
-  <ExternalLink size={14} />
-</span>
-
+                className="px-4 py-3 text-primary cursor-pointer hover:underline"
+                onClick={() => {
+                  if (e.property?.slug) {
+                    navigate(`/properties/${e.property.slug}`);
+                  }
+                }}
+              >
+                <span className="inline-flex items-center gap-1">
+                  {e.property?.title || e.propertyTitle || "View Property"}
+                  <ExternalLink size={14} />
+                </span>
+              </td>
 
               <td className="px-4 py-3">{e.name}</td>
 
@@ -73,22 +74,21 @@ const updateStatus = useMutation({
               )}
 
               <td className="px-4 py-3">
-  <select
-    value={e.status}
-    onChange={(ev) =>
-      updateStatus.mutate({
-        id: e._id,
-        status: ev.target.value,
-      })
-    }
-    className="border rounded-md px-2 py-1 text-sm"
-  >
-    <option value="new">New</option>
-    <option value="contacted">Contacted</option>
-    <option value="closed">Closed</option>
-  </select>
-</td>
-
+                <select
+                  value={e.status}
+                  onChange={(ev) =>
+                    updateStatus.mutate({
+                      id: e._id,
+                      status: ev.target.value,
+                    })
+                  }
+                  className="border rounded-md px-2 py-1 text-sm"
+                >
+                  <option value="new">New</option>
+                  <option value="contacted">Contacted</option>
+                  <option value="closed">Closed</option>
+                </select>
+              </td>
 
               <td className="px-4 py-3 text-secondary">
                 {new Date(e.createdAt).toLocaleDateString()}
