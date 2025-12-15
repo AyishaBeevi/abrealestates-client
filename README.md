@@ -1,16 +1,64 @@
-# React + Vite
+A production-ready real estate platform with role-based access, agent dashboards, and secure admin controls, built and deployed as a real-world full-stack application.
+🔗 Live Demo: https://abrealestates.vercel.app
+🔗 Backend API: Hosted on Render
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Overview:
+AB Real Estates is a full-stack real estate management platform that allows:
+Users to browse verified property listings
+Agents to manage their own properties and enquiries
+Admins to manage users, agents, and property approvals
+The project focuses on real production concerns such as authentication, authorization, deployment, and error handling, not just UI.
 
-Currently, two official plugins are available:
+Key Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Users :
+Browse approved property listings
+View detailed property information
+Submit property enquiries
 
-## React Compiler
+Agents:
+Secure agent dashboard
+Add, edit, and manage own properties
+View and manage property enquiries
+Filter listings by status, approval, and availability
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Admin:
+Admin-only dashboard
+Approve / reject properties
+Manage users and agent roles
+View platform-wide enquiries
 
-## Expanding the ESLint configuration
+Authentication & Authorization:
+JWT-based authentication
+Role-based access control (User / Agent / Admin)
+Protected frontend routes
+Backend middleware enforcing role permissions
+Automatic logout on unauthorized access
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+TECH STACK
+Frontend:
+React (Vite)
+React Router
+TanStack React Query
+Tailwind CSS
+Axios
+
+Backend:
+Node.js
+Express.js
+MongoDB
+JWT Authentication
+Cloudinary (image uploads)
+
+Deployment:
+Frontend: Vercel
+Backend: Render
+
+This is not a tutorial clone.
+
+It demonstrates:
+Full-stack thinking
+Secure role-based architecture
+Production deployment knowledge
+Real debugging experience
+Clean separation of concerns
