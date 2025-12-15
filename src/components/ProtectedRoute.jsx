@@ -1,15 +1,21 @@
 import { Navigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
-export default function ProtectedRoute({ children }) {
-  // Replace this with your real auth check.
-  // Example: read token from localStorage
-  const token = localStorage.getItem("token");
+export default function ProtectedRoute({ roles, children }) {
+  const { user, loading } = useAuth();
 
-  // If no token → user is not logged in → kick them to login
-  if (!token) {
+  
+  if (loading) {
+    return <div className="p-6">Checking permissions…</div>;
+  }
+
+  if (!user) {
     return <Navigate to="/login" replace />;
   }
 
-  // If token exists → allow the page to render
+  if (roles && !roles.includes(user.role)) {
+    return <Navigate to="/" replace />;
+  }
+
   return children;
 }
