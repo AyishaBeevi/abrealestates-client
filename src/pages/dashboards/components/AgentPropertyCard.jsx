@@ -7,7 +7,7 @@ export default function AgentPropertyCard({ property, onEdit }) {
   const queryClient = useQueryClient();
 
   const deleteProperty = useMutation({
-    mutationFn: async () => api.delete(`/properties/${property._id}`),
+    mutationFn: async () => api.delete(`/api/properties/${property._id}`),
     onSuccess: () => {
       queryClient.invalidateQueries(["agent-properties"]);
       alert("Property deleted");
@@ -72,7 +72,7 @@ export default function AgentPropertyCard({ property, onEdit }) {
   value={property.status}
   onChange={async (e) => {
     const newStatus = e.target.value;
-    await api.patch(`/properties/${property._id}/availability`, {
+    await api.patch(`/api/properties/${property._id}/availability`, {
       status: newStatus,
     });
     queryClient.invalidateQueries(["agent-properties"]);

@@ -18,7 +18,7 @@ export default function PropertyEnquiry({ property }) {
 
     try {
       setLoading(true);
-      await api.post("/enquiries", {
+      await api.post("/api/enquiries", {
         ...form,
         propertyId: property._id,
       });
