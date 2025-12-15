@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import api from "../../../services/api/axios";
 import AgentPropertyCard from "./AgentPropertyCard";
+import { useAuth } from "../../../hooks/useAuth";
 
 export default function AgentPropertyList({ onEdit }) {
   const [filters, setFilters] = useState({
@@ -10,25 +11,30 @@ export default function AgentPropertyList({ onEdit }) {
     availability: "all",
   });
 
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["agent-properties", filters],
-    queryFn: async () => {
-      const params = new URLSearchParams();
+  const { user } = useAuth();
 
-      if (filters.sort) params.append("sort", filters.sort);
-      if (filters.approval !== "all") params.append("approval", filters.approval);
-      if (filters.availability !== "all")
-        params.append("availability", filters.availability);
+const { data, isLoading, isError } = useQuery({
+  queryKey: ["agent-properties", filters],
+  queryFn: async () => {
+    const params = new URLSearchParams();
 
-      const res = await api.get(`/api/properties/agent?${params.toString()}`);
-      return res.data;
-    },
-  });
+    if (filters.sort) params.append("sort", filters.sort);
+    if (filters.approval !== "all") params.append("approval", filters.approval);
+    if (filters.availability !== "all")
+      params.append("availability", filters.availability);
+
+    const res = await api.get(`/api/properties/agent?${params.toString()}`);
+    return res.data;
+  },
+  enabled: user?.role === "agent",
+});
 
   if (isLoading) return <p className="text-gray-600">Loading your properties…</p>;
   if (isError) return <p className="text-red-600">Failed to load properties</p>;
 
   const properties = data || [];
+
+
 
   return (
     <div className="mt-10">

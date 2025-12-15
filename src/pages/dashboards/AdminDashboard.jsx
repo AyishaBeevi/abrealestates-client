@@ -6,7 +6,7 @@ import AuditLogs from "./components/AuditLogs";
 import AdminPropertyModal from "./components/AdminPropertyModal";
 import AdminContact from "./components/AdminContact";
 import AdminEnquiries from "./AdminEnquiries";
-
+import { useAuth } from "../../context/AuthContext";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -17,39 +17,52 @@ import {
   Legend,
 } from "chart.js";
 
+
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
 export default function AdminDashboard() {
   const qc = useQueryClient();
   const [selectedProperty, setSelectedProperty] = useState(null);
   const [activeTab, setActiveTab] = useState("users");
+const { user } = useAuth();
+if (!user) {
+  return <div className="p-8">Checking permissions…</div>;
+}
+
+if (user.role !== "admin") {
+  return <Navigate to="/login" />;
+}
 
   /* ================= USERS ================= */
   const {
-    data: users = [],
-    isLoading: usersLoading,
-    error: usersError,
-  } = useQuery({
-    queryKey: ["admin-users"],
-    queryFn: async () => (await api.get("/api/admin/users")).data,
-  });
+  data: users = [],
+  isLoading: usersLoading,
+  error: usersError,
+} = useQuery({
+  queryKey: ["admin-users"],
+  queryFn: async () => (await api.get("/api/admin/users")).data,
+  enabled: user?.role === "admin",
+});
 
   /* ================= PROPERTIES ================= */
-  const { data: propertiesData, isLoading: propertiesLoading } = useQuery({
-    queryKey: ["admin-properties"],
-    queryFn: async () => (await api.get("/api/admin/properties")).data,
-  });
+ const { data: propertiesData, isLoading: propertiesLoading } = useQuery({
+  queryKey: ["admin-properties"],
+  queryFn: async () => (await api.get("/api/admin/properties")).data,
+  enabled: user?.role === "admin",
+});
+
 
   const properties = propertiesData?.properties || [];
 
   /* ================= CONTACT MESSAGES ================= */
   const {
-    data: messages = [],
-    isLoading: messagesLoading,
-  } = useQuery({
-    queryKey: ["admin-contact"],
-    queryFn: async () => (await api.get("/api/admin/contact")).data,
-  });
+  data: messages = [],
+  isLoading: messagesLoading,
+} = useQuery({
+  queryKey: ["admin-contact"],
+  queryFn: async () => (await api.get("/api/admin/contact")).data,
+  enabled: user?.role === "admin",
+});
 
   const unreadCount = messages.filter((m) => !m.isRead).length;
 
