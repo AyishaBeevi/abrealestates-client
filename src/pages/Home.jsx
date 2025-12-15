@@ -30,7 +30,7 @@ export default function Home() {
   const { data = [], isLoading } = useQuery({
     queryKey: ["home-properties"],
     queryFn: async () => {
-      const res = await api.get("/properties");
+      const res = await api.get("/api/properties");
       return res.data?.properties || [];
     },
   });
