@@ -18,7 +18,7 @@ export default function Home() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await api.post("/contact", form);
+      await api.post("/api/contact", form);
       setForm({ name: "", contact: "", message: "", method: "call" });
       alert("Message sent successfully");
     } catch {
