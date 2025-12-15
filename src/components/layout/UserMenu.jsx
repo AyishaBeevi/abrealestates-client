@@ -5,12 +5,14 @@ export default function UserMenu() {
 
   if (!user) return null;
 
-  const roleLabel =
-    user.role === "admin"
-      ? "Admin"
-      : user.role === "agent"
-      ? "Agent"
-      : "User";
+  const isAdmin = user.role === "admin";
+  const isAgent = user.role === "agent";
+
+  const roleLabel = isAdmin
+    ? "Admin"
+    : isAgent
+    ? "Agent"
+    : "User";
 
   return (
     <div className="flex items-center gap-3 text-sm">
@@ -18,9 +20,9 @@ export default function UserMenu() {
         👤 Logged in as: <b>{roleLabel}</b>
       </span>
 
-      {(user.role === "admin" || user.role === "agent") && (
+      {(isAdmin || isAgent) && (
         <Link
-          to="/dashboard"
+          to={isAdmin ? "/dashboard/admin" : "/dashboard/agent"}
           className="px-3 py-1.5 rounded-lg bg-black text-white hover:bg-gray-800 transition"
         >
           Go to Dashboard
