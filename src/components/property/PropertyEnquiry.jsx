@@ -1,5 +1,6 @@
 import { useState } from "react";
 import api from "../../services/api/axios";
+import toast from "react-hot-toast";
 
 export default function PropertyEnquiry({ property }) {
   const [form, setForm] = useState({
@@ -24,7 +25,7 @@ export default function PropertyEnquiry({ property }) {
       });
       setSent(true);
     } catch (err) {
-      alert("Failed to send enquiry");
+      toast.error("Something went wrong");
     } finally {
       setLoading(false);
     }

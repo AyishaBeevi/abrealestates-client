@@ -2,6 +2,7 @@ import React from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "../../../services/api/axios";
 import ImageGallerySmall from "../../../components/ui/ImageGallerySmall";
+import toast from "react-hot-toast";
 
 export default function AgentPropertyCard({ property, onEdit }) {
   const queryClient = useQueryClient();
@@ -10,7 +11,7 @@ export default function AgentPropertyCard({ property, onEdit }) {
     mutationFn: async () => api.delete(`/api/properties/${property._id}`),
     onSuccess: () => {
       queryClient.invalidateQueries(["agent-properties"]);
-      alert("Property deleted");
+      toast.success("Property deleted");
     }
   });
 

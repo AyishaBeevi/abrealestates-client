@@ -5,6 +5,7 @@ import api from "../../services/api/axios";
 import Input from "../../components/ui/Input";
 import Button from "../../components/ui/Button";
 import ImageReorderPreview from "../../components/property/ImageReorderPreview";
+import toast from "react-hot-toast";
 
 export default function AddPropertyForm() {
   const queryClient = useQueryClient();
@@ -66,7 +67,7 @@ export default function AddPropertyForm() {
 
     onSuccess: () => {
       queryClient.invalidateQueries(["agent-properties"]);
-      alert("Property submitted for admin approval");
+      toast.success("Property submitted for admin approval");
 
       setFormData({
         title: "",
@@ -88,7 +89,7 @@ export default function AddPropertyForm() {
     },
 
     onError: (err) => {
-      alert(err?.response?.data?.message || "Failed to add property");
+      toast.error(err?.response?.data?.message || "Failed to add property");
     },
   });
 

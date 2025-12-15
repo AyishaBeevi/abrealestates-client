@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import api from "../services/api/axios";
 import PropertyCard from "../components/property/PropertyCard";
+import toast from "react-hot-toast";
 
 export default function Home() {
   const location = useLocation();
@@ -20,9 +21,9 @@ export default function Home() {
     try {
       await api.post("/api/contact", form);
       setForm({ name: "", contact: "", message: "", method: "call" });
-      alert("Message sent successfully");
+      toast.success("Message sent successfully");
     } catch {
-      alert("Failed to send message");
+      toast.error("Failed to send message");
     }
   };
 

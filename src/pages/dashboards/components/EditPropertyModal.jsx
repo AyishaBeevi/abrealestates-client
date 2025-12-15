@@ -4,6 +4,7 @@ import api from "../../../services/api/axios";
 import AirbnbImageManager from "../../../components/property/AirbnbImageManager";
 import Input from "../../../components/ui/Input";
 import Button from "../../../components/ui/Button";
+import toast from "react-hot-toast";
 
 export default function EditPropertyModal({ property, onClose }) {
   const queryClient = useQueryClient();
@@ -112,7 +113,8 @@ export default function EditPropertyModal({ property, onClose }) {
 
     onSuccess: () => {
       queryClient.invalidateQueries(["agent-properties"]);
-      alert("Property updated!");
+      toast.success("Property updated");
+
       onClose();
     },
   });

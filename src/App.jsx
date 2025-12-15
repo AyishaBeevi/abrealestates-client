@@ -8,22 +8,25 @@ import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import AdminDashboard from "./pages/dashboards/AdminDashboard.jsx";
 import AgentDashboard from "./pages/dashboards/AgentDashboard.jsx";
-import { useAuth } from "./context/AuthContext.jsx";
-import "./utils/fixLeafletIcon.js";
 import AdminEnquiries from "./pages/dashboards/AdminEnquiries.jsx";
 import AgentEnquiries from "./pages/dashboards/AgentEnquiries.jsx";
+import { useAuth } from "./context/AuthContext.jsx";
+import { Toaster } from "react-hot-toast";
+import "./utils/fixLeafletIcon.js";
 
 export default function App() {
   const { user } = useAuth();
 
-  // Protected route wrapper
+  /* ---------------- Protected Route ---------------- */
   const ProtectedRoute = ({ children, roles }) => {
     if (!user) return <Navigate to="/login" replace />;
-    if (roles && !roles.includes(user.role)) return <Navigate to="/" replace />;
+    if (roles && !roles.includes(user.role)) {
+      return <Navigate to="/" replace />;
+    }
     return children;
   };
 
-  // Layout wrapper for Header/Footer
+  /* ---------------- Layout ---------------- */
   const AppLayout = ({ children }) => (
     <div className="flex flex-col min-h-screen">
       <Header />
@@ -33,33 +36,63 @@ export default function App() {
   );
 
   return (
-    <AppLayout>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/listings" element={<Listings />} />
-        <Route path="/properties/:slug" element={<PropertyDetail />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-<Route path="/dashboard/agent/enquiries" element={<AgentEnquiries />} />
-<Route path="/dashboard/admin/enquiries" element={<AdminEnquiries />} />
+    <>
+      
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 3000,
+          style: {
+            fontSize: "14px",
+          },
+        }}
+      />
 
-        <Route
-          path="/dashboard/admin"
-          element={
-            <ProtectedRoute roles={["admin"]}>
-              <AdminDashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/dashboard/agent"
-          element={
-            <ProtectedRoute roles={["agent"]}>
-              <AgentDashboard />
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
-    </AppLayout>
+      <AppLayout>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/listings" element={<Listings />} />
+          <Route path="/properties/:slug" element={<PropertyDetail />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+
+          {/* -------- AGENT -------- */}
+          <Route
+            path="/dashboard/agent"
+            element={
+              <ProtectedRoute roles={["agent"]}>
+                <AgentDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard/agent/enquiries"
+            element={
+              <ProtectedRoute roles={["agent"]}>
+                <AgentEnquiries />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* -------- ADMIN -------- */}
+          <Route
+            path="/dashboard/admin"
+            element={
+              <ProtectedRoute roles={["admin"]}>
+                <AdminDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard/admin/enquiries"
+            element={
+              <ProtectedRoute roles={["admin"]}>
+                <AdminEnquiries />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </AppLayout>
+    </>
   );
 }
