@@ -4,7 +4,7 @@ import PropertyFilters from "../components/property/PropertyFilters";
 import SkeletonCard from "../components/ui/SkeletonCard";
 import PropertyCard from "../components/property/PropertyCard";
 import { useToast } from "../context/ToastContext";
-
+import api from "../services/api/axios";
 export default function Listings() {
   const toast = useToast()?.addToast || (() => {});
 
@@ -47,10 +47,8 @@ export default function Listings() {
           limit: 12,
         });
 
-        const res = await axios.get(
-          "http://localhost:5000/api/properties",
-          { params }
-        );
+        const res = await api.get("/api/properties", { params });
+
 
         const data = res.data.properties || [];
 
