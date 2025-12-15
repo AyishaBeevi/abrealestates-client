@@ -21,11 +21,11 @@ export default function PropertyDetails() {
       try {
         setLoading(true);
 
-        const res = await api.get(`/properties/${slug}`);
+        const res = await api.get(`/api/properties/${slug}`);
         const prop = res.data.property || res.data;
         setProperty(prop);
 
-        const rel = await api.get(`/properties/related/advanced/${slug}`);
+        const rel = await api.get(`/api/properties/related/advanced/${slug}`);
         setRelated(rel.data.related || []);
       } catch (err) {
         console.error(err);
