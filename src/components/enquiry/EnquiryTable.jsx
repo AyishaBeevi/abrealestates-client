@@ -1,6 +1,7 @@
-import { Link } from "react-router-dom";
+import { Link , useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "../../services/api/axios";
+
 
 export default function EnquiryTable({ enquiries, isAdmin = false }) {
   if (!enquiries.length) {
@@ -11,6 +12,7 @@ export default function EnquiryTable({ enquiries, isAdmin = false }) {
     );
   }
   const qc = useQueryClient();
+const navigate = useNavigate();
 
 const updateStatus = useMutation({
   mutationFn: ({ id, status }) =>
@@ -42,14 +44,19 @@ const updateStatus = useMutation({
               key={e._id}
               className="border-t hover:bg-gray-50 transition"
             >
-              <td className="px-4 py-3 font-medium text-primary">
-                <Link
-                  to={`/api/properties/${e.property}`}
-                  className="hover:underline"
-                >
-                  {e.propertyTitle}
-                </Link>
-              </td>
+              <td
+  className="text-primary cursor-pointer hover:underline"
+  onClick={() =>
+    navigate(`/api/properties/${enquiry.property.slug}`)
+  }
+>
+  {enquiry.property?.title || enquiry.propertyTitle}
+</td>
+<span className="inline-flex items-center gap-1 text-primary hover:underline">
+  {enquiry.property?.title}
+  <ExternalLink size={14} />
+</span>
+
 
               <td className="px-4 py-3">{e.name}</td>
 
