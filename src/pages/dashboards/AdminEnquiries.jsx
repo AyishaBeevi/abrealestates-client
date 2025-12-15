@@ -6,7 +6,7 @@ export default function AdminEnquiries() {
   const { data = [], isLoading } = useQuery({
     queryKey: ["admin-enquiries"],
     queryFn: async () => {
-      const res = await api.get("/enquiries/admin");
+      const res = await api.get("/api/enquiries/admin");
       return res.data;
     },
   });

@@ -20,7 +20,7 @@ export default function AgentPropertyList({ onEdit }) {
       if (filters.availability !== "all")
         params.append("availability", filters.availability);
 
-      const res = await api.get(`/properties/agent?${params.toString()}`);
+      const res = await api.get(`/api/properties/agent?${params.toString()}`);
       return res.data;
     },
   });

@@ -16,7 +16,7 @@ export default function AdminContact() {
     queryKey: ["admin-contact", { search, sort, filterUnread }],
     queryFn: async () => {
       const res = await api.get(
-        `/admin/contact?search=${search}&sort=${sort}&unread=${filterUnread}`
+        `/api/admin/contact?search=${search}&sort=${sort}&unread=${filterUnread}`
       );
       return res.data;
     },
@@ -24,13 +24,13 @@ export default function AdminContact() {
 
   // Mark as read
   const markRead = useMutation({
-    mutationFn: (id) => api.patch(`/admin/contact/${id}/read`),
+    mutationFn: (id) => api.patch(`/api/admin/contact/${id}/read`),
     onSuccess: () => qc.invalidateQueries(["admin-contact"]),
   });
 
   // Delete message
   const deleteMsg = useMutation({
-    mutationFn: (id) => api.delete(`/admin/contact/${id}`),
+    mutationFn: (id) => api.delete(`/api/admin/contact/${id}`),
     onSuccess: () => qc.invalidateQueries(["admin-contact"]),
   });
 

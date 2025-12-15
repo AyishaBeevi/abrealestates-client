@@ -6,7 +6,7 @@ export default function AgentEnquiries() {
   const { data = [], isLoading } = useQuery({
     queryKey: ["agent-enquiries"],
     queryFn: async () => {
-      const res = await api.get("/enquiries/agent");
+      const res = await api.get("/api/enquiries/agent");
       return res.data;
     },
   });

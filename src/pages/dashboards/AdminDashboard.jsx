@@ -31,13 +31,13 @@ export default function AdminDashboard() {
     error: usersError,
   } = useQuery({
     queryKey: ["admin-users"],
-    queryFn: async () => (await api.get("/admin/users")).data,
+    queryFn: async () => (await api.get("/api/admin/users")).data,
   });
 
   /* ================= PROPERTIES ================= */
   const { data: propertiesData, isLoading: propertiesLoading } = useQuery({
     queryKey: ["admin-properties"],
-    queryFn: async () => (await api.get("/admin/properties")).data,
+    queryFn: async () => (await api.get("/api/admin/properties")).data,
   });
 
   const properties = propertiesData?.properties || [];
@@ -48,41 +48,41 @@ export default function AdminDashboard() {
     isLoading: messagesLoading,
   } = useQuery({
     queryKey: ["admin-contact"],
-    queryFn: async () => (await api.get("/admin/contact")).data,
+    queryFn: async () => (await api.get("/api/admin/contact")).data,
   });
 
   const unreadCount = messages.filter((m) => !m.isRead).length;
 
   /* ================= MUTATIONS ================= */
   const updateUserRole = useMutation({
-    mutationFn: ({ id, role }) => api.patch(`/admin/users/${id}/role`, { role }),
+    mutationFn: ({ id, role }) => api.patch(`/api/admin/users/${id}/role`, { role }),
     onSuccess: () => qc.invalidateQueries(["admin-users"]),
   });
 
   const approveProperty = useMutation({
     mutationFn: ({ id, approved }) =>
-      api.patch(`/admin/properties/${id}/approve`, { approved }),
+      api.patch(`/api/admin/properties/${id}/approve`, { approved }),
     onSuccess: () => qc.invalidateQueries(["admin-properties"]),
   });
 
   const deleteProperty = useMutation({
-    mutationFn: (id) => api.delete(`/admin/properties/${id}`),
+    mutationFn: (id) => api.delete(`/api/admin/properties/${id}`),
     onSuccess: () => qc.invalidateQueries(["admin-properties"]),
   });
 
   const toggleFeatured = useMutation({
-    mutationFn: (id) => api.patch(`/admin/properties/${id}/featured`),
+    mutationFn: (id) => api.patch(`/api/admin/properties/${id}/featured`),
     onSuccess: () => qc.invalidateQueries(["admin-properties"]),
   });
 
   const toggleTopPick = useMutation({
-    mutationFn: (id) => api.patch(`/admin/properties/${id}/top-pick`),
+    mutationFn: (id) => api.patch(`/api/admin/properties/${id}/top-pick`),
     onSuccess: () => qc.invalidateQueries(["admin-properties"]),
   });
 
   const updateAvailability = useMutation({
     mutationFn: ({ id, status }) =>
-      api.patch(`/properties/${id}/availability`, { status }),
+      api.patch(`/api/properties/${id}/availability`, { status }),
     onSuccess: () => qc.invalidateQueries(["admin-properties"]),
   });
 

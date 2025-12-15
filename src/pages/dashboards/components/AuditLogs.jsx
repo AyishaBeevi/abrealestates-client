@@ -19,7 +19,7 @@ export default function AuditLogs() {
   const { data = [], isLoading, isError } = useQuery({
     queryKey: ["audit-logs"],
     queryFn: async () => {
-      const res = await api.get("/admin/audit-logs");
+      const res = await api.get("/api/admin/audit-logs");
       return res.data || [];
     },
   });
