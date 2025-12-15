@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import UserMenu from "./UserMenu";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const isAgent = user?.role === "agent";
+  const isAdmin = user?.role === "admin";
 
   /* ---------------- CONTACT SCROLL ---------------- */
   const handleContactClick = () => {
@@ -63,7 +65,17 @@ export default function Header() {
             Contact
           </button>
 
-          {/* AUTH / USER MENU */}
+          {/* DASHBOARD (AGENT / ADMIN ONLY) */}
+          {(isAgent || isAdmin) && (
+            <Link
+              to={isAdmin ? "/dashboard/admin" : "/dashboard/agent"}
+              className="text-primary font-medium hover:underline"
+            >
+              Dashboard
+            </Link>
+          )}
+
+          {/* AUTH */}
           {!user ? (
             <Link
               to="/login"
@@ -74,15 +86,12 @@ export default function Header() {
               Login
             </Link>
           ) : (
-            <div className="flex items-center gap-4">
-              <UserMenu />
-              <button
-                onClick={handleLogout}
-                className="text-secondary hover:text-primary transition text-sm"
-              >
-                Logout
-              </button>
-            </div>
+            <button
+              onClick={handleLogout}
+              className="text-secondary hover:text-primary transition"
+            >
+              Logout
+            </button>
           )}
         </nav>
 
@@ -127,19 +136,17 @@ export default function Header() {
               Contact
             </button>
 
-            {user && (
-              <>
-                <UserMenu />
-                <button
-                  onClick={handleLogout}
-                  className="text-left text-secondary hover:text-primary transition"
-                >
-                  Logout
-                </button>
-              </>
+            {(isAgent || isAdmin) && (
+              <Link
+                to={isAdmin ? "/dashboard/admin" : "/dashboard/agent"}
+                onClick={() => setOpen(false)}
+                className="font-medium text-primary"
+              >
+                Dashboard
+              </Link>
             )}
 
-            {!user && (
+            {!user ? (
               <Link
                 to="/login"
                 onClick={() => setOpen(false)}
@@ -147,6 +154,13 @@ export default function Header() {
               >
                 Login
               </Link>
+            ) : (
+              <button
+                onClick={handleLogout}
+                className="text-left text-secondary hover:text-primary transition"
+              >
+                Logout
+              </button>
             )}
           </div>
         </div>
