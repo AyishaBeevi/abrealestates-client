@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+/* ===============================
+   THEME TOKENS (Tailwind v4)
+   =============================== */
+@theme {
+  --color-primary: #0e2442;
+  --color-secondary: #4e6c95;
+  --color-base: #ffffff;
+}
+
+/* ===============================
+   BASE STYLES
+   =============================== */
+@layer base {
+  body {
+    background-color: var(--color-base);
+    color: var(--color-primary);
+  }
+}
+
