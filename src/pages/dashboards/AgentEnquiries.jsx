@@ -12,7 +12,7 @@ export default function AgentEnquiries() {
       const res = await api.get("/api/enquiries/agent");
       return res.data;
     },
-    enabled: user?.role === "agent", // 🔥 IMPORTANT
+    enabled: user?.role === "agent", 
   });
 
   if (!user) return null;

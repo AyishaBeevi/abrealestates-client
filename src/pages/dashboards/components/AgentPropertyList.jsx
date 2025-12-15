@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import api from "../../../services/api/axios";
 import AgentPropertyCard from "./AgentPropertyCard";
-import { useAuth } from "../../../hooks/useAuth";
+import { useAuth } from "../../../context/AuthContext";
+
 
 export default function AgentPropertyList({ onEdit }) {
   const [filters, setFilters] = useState({
