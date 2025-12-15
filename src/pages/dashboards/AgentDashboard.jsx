@@ -9,6 +9,7 @@ import { useAuth } from "../../context/AuthContext";
 
 
 export default function AgentDashboard() {
+  const { user, loading } = useAuth();
   const [editingProperty, setEditingProperty] = useState(null);
 
   if (!user) {
