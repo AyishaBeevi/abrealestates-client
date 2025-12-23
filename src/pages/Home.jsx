@@ -30,11 +30,20 @@ export default function Home() {
   /* ---------------- FETCH PROPERTIES ---------------- */
   const { data = [], isLoading } = useQuery({
     queryKey: ["home-properties"],
+    enabled: false,
     queryFn: async () => {
       const res = await api.get("/api/properties");
       return res.data?.properties || [];
     },
   });
+
+  useEffect(() => {
+  if ("requestIdleCallback" in window) {
+    requestIdleCallback(() => refetch());
+  } else {
+    setTimeout(refetch, 1500);
+  }
+}, [refetch]);
 
   const featured = data.find((p) => p.isFeatured) || null;
   const topPicks = data.filter((p) => p.isTopPick).slice(0, 3);

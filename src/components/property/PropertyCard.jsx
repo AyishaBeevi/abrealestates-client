@@ -15,18 +15,17 @@ export default function PropertyCard({ property }) {
     .join(", ");
 
   return (
-    <motion.article
-      onClick={() => navigate(`/properties/${property.slug}`)}
-      className="
-        bg-base rounded-2xl overflow-hidden
-        border border-secondary/20
-        shadow-sm hover:shadow-md
-        cursor-pointer transition-shadow
-        focus:outline-none focus:ring-2 focus:ring-primary/40
-      "
-      whileHover={{ scale: 1.015, y: -2 }}
-      transition={{ duration: 0.2, ease: "easeOut" }}
-    >
+    <article
+  onClick={() => navigate(`/properties/${property.slug}`)}
+  className="
+    bg-base rounded-2xl overflow-hidden
+    border border-secondary/20
+    shadow-sm hover:shadow-md
+    cursor-pointer transition-shadow
+    focus:outline-none focus:ring-2 focus:ring-primary/40
+  "
+>
+
       {/* ---------------- IMAGE ---------------- */}
       <div className="relative">
         <ImageGallerySmall images={property.images} />
@@ -92,6 +91,6 @@ export default function PropertyCard({ property }) {
           <span>{property.furnished ? "Furnished" : "Unfurnished"}</span>
         </div>
       </div>
-    </motion.article>
+    </article>
   );
 }
