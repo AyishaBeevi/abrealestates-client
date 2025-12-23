@@ -43,7 +43,7 @@ export default function Header() {
         {/* BRAND */}
         <Link to="/" className="flex items-center gap-3">
           <img
-            src="/images/AB (2).png"
+            src="/images/AB (2).webp"
             alt="AB Real Estate"
             className="w-10 h-10 object-contain"
           />
