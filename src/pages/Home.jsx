@@ -56,8 +56,12 @@ export default function Home() {
       {/* ================= HERO ================= */}
       <section className="relative min-h-[85vh] flex items-center">
         <img
-          src="https://res.cloudinary.com/<dosljhuzf>/image/upload/f_webp,q_auto:eco,c_limit,w_1920,h_1080/realestate/dubai.jpg"
+          src="https://res.cloudinary.com/<dosljhuzf>/image/upload/
+f_webp,q_auto:eco,c_limit,w_1920,h_1080/
+realestate/dubai.jpg"
+
           alt="Luxury residences"
+          loading="lazy"
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-white/60" />
